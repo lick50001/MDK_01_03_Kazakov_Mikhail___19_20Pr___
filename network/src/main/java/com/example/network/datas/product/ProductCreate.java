@@ -1,5 +1,8 @@
 package com.example.network.datas.product;
 
+import android.content.Context;
+import android.net.Uri;
+
 import com.example.network.domains.apis.MyAsyncTask;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.common.Settings;
@@ -9,28 +12,50 @@ import com.google.gson.GsonBuilder;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProductCreate extends MyAsyncTask {
+    Context context;
     String token;
     Product product;
+    Uri uri;
 
-    public ProductCreate(String token, Product product, MyResponseCallback callback) {
+    public ProductCreate(Context context, String token, Product product, Uri uri, MyResponseCallback callback) {
         super(callback);
+
+        this.context = context;
         this.token = token;
         this.product = product;
+        this.uri = uri;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-        String rawData = new GsonBuilder().create().toJson(product);
-
         try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+
+            File tempFile = createTempFileFromServer(inputStream);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("Name", product.name);
+            params.put("Description", product.description);
+            params.put("Gender", String.valueOf(product.gender));
+            params.put("Expenditure", product.expenditure);
+            params.put("Price", String.valueOf(product.price));
+
             Connection.Response response = Jsoup.connect(Settings.URL + "/api/product/create")
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .method(Connection.Method.POST)
                     .header("Content-type", "application/json")
                     .header("token", token)
-                    .requestBody(rawData)
+                    .data(params)
+                    .data("ImageFile", tempFile.getName(), new FileInputStream(tempFile))
                     .execute();
             return response.statusCode() == 200 ?
                     response.body() :
@@ -38,5 +63,25 @@ public class ProductCreate extends MyAsyncTask {
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    public File createTempFileFromServer(InputStream inputStream) {
+        try {
+            File tempFile = File.createTempFile("upload_", ".jpg");
+            tempFile.deleteOnExit();
+
+            try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+            }
+
+            return tempFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
