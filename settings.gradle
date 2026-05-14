@@ -23,6 +23,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Camera_Klimov"
-include ':app'
-include ':network'
-include ':UIComponents'
+include ':app', ':network', ':UIComponents'
