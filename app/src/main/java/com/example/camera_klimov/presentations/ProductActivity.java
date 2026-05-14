@@ -96,6 +96,7 @@ public class ProductActivity extends AppCompatActivity {
                         public void onCompile(String result) {
                             Log.e("PRODUCT CREATE", result);
                             Toast.makeText(init, "Новый продукт создан!", Toast.LENGTH_SHORT).show();
+                            MainActivity.main.ProductGetUser();
                             finish();
                         }
 

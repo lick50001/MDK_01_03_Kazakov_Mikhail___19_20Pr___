@@ -29,6 +29,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static MainActivity main;
     public static String TOKEN = "830003a4-ae0d-4ede-9ceb-5f43bdebfaa8";
     View btnOpenAddProduct;
     LinearLayout llContent;
