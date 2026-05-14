@@ -7,8 +7,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -46,6 +48,8 @@ public class ProductActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product);
 
+        init = this;
+
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
         etExpedinture = findViewById(R.id.etExpenditure);
@@ -66,6 +70,8 @@ public class ProductActivity extends AppCompatActivity {
 
         etName.Text.setOnFocusChangeListener(LastFocus);
         etPrice.Text.setOnFocusChangeListener(LastFocus);
+        etDescription.Text.setOnFocusChangeListener(LastFocus);
+        etExpedinture.Text.setOnFocusChangeListener(LastFocus);
 
         btnImageSelect.setOnClickListener(v -> {
             bottomSheetHepler.dialog.show();
@@ -106,17 +112,42 @@ public class ProductActivity extends AppCompatActivity {
     View.OnFocusChangeListener LastFocus = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean hasFocus) {
+            EditText editText = (EditText) view;
+
+            if (hasFocus) {
+                editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_hover);
+                View parent = (View) editText.getParent();
+                TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                if (message != null) message.setText(" ");
+            } else {
+                String value = editText.getText().toString().trim();
+                if (value.isEmpty()) {
+                    editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_error);
+                    View parent = (View) editText.getParent();
+                    TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                    if (message != null) message.setText("Поле не может быть пустым");
+                } else if (value.matches("\\d+")) {
+                    editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_error);
+                    View parent = (View) editText.getParent();
+                    TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                    if (message != null) message.setText("Не корректный ввод значений");
+                } else {
+                    editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_default);
+                    View parent = (View) editText.getParent();
+                    TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                    if (message != null) message.setText(" ");
+                }
+            }
+
             if (hasFocus) return;
 
             boolean state = true;
-
             if (etName.Text.getText().toString().isEmpty()) state = false;
             if (etDescription.Text.getText().toString().isEmpty()) state = false;
             if (etExpedinture.Text.getText().toString().isEmpty()) state = false;
             if (etPrice.Text.getText().toString().isEmpty()) state = false;
 
             boolean isCorrectPrice = Pattern.matches("\\d*", etPrice.Text.getText().toString());
-
             etPrice.OnError(!isCorrectPrice, "Поле принимает только цифры");
             if (!isCorrectPrice) state = false;
 

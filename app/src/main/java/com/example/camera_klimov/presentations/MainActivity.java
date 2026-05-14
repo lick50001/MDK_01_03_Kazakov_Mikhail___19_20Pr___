@@ -29,7 +29,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String TOKEN = "";
+    public static String TOKEN = "830003a4-ae0d-4ede-9ceb-5f43bdebfaa8";
     View btnOpenAddProduct;
     LinearLayout llContent;
     List<Product> Products;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
             tvName.setText(product.name);
 
-            tvPrice.setText(product.price + "Р");
+            tvPrice.setText(product.price + " Р");
 
             llContent.addView(itemProduct);
         }

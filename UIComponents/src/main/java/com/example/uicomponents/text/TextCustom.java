@@ -42,6 +42,11 @@ public class TextCustom extends ConstraintLayout {
     }
 
     public void init(String title, String hint, String text) {
+        if (Text == null) {
+            LayoutInflater.from(getContext()).inflate(R.layout.text, this, true);
+            Text = findViewById(R.id.text);
+            message = findViewById(R.id.textViewMessage);
+        }
         Text.setHint(hint);
     }
 
@@ -64,65 +69,65 @@ public class TextCustom extends ConstraintLayout {
         }
     }
 
-    public void init(String value, TypeText type) {
-        Text.setText(value);
-        if (type == TypeText.DEFAULT) {
-            Text.setBackgroundResource(R.drawable.text_default);
-            Text.setTextColor(Color.parseColor("#000000"));
-            NameListener();
-        } else if (type == TypeText.HOVER) {
-            Text.setBackgroundResource(R.drawable.text_hover);
-            Text.setTextColor(Color.parseColor("#000000"));
-            NameListener();
-        } else if (type == TypeText.ERROR) {
-            Text.setBackgroundResource(R.drawable.text_error);
-            Text.setTextColor(Color.parseColor("#000000"));
-            NameListener();
-        } else if (type == TypeText.DATE) {
-            Text.setBackgroundResource(R.drawable.text_default);
-            DateListener();
-        }
-    }
+//    public void init(String value, TypeText type) {
+//        Text.setText(value);
+//        if (type == TypeText.DEFAULT) {
+//            Text.setBackgroundResource(R.drawable.text_default);
+//            Text.setTextColor(Color.parseColor("#000000"));
+//            NameListener();
+//        } else if (type == TypeText.HOVER) {
+//            Text.setBackgroundResource(R.drawable.text_hover);
+//            Text.setTextColor(Color.parseColor("#000000"));
+//            NameListener();
+//        } else if (type == TypeText.ERROR) {
+//            Text.setBackgroundResource(R.drawable.text_error);
+//            Text.setTextColor(Color.parseColor("#000000"));
+//            NameListener();
+//        } else if (type == TypeText.DATE) {
+//            Text.setBackgroundResource(R.drawable.text_default);
+//            DateListener();
+//        }
+//    }
 
-    private void NameListener() {
-        Text.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                Text.setBackgroundResource(R.drawable.text_hover);
-                message.setText("");
-            } else {
-                if (Text.getText().toString().trim().isEmpty()) {
-                    Text.setBackgroundResource(R.drawable.text_error);
-                    message.setText("Поле не может быть пустым");
-                } else if (Text.getText().toString().trim().matches("\\d+")) {
-                    Text.setBackgroundResource(R.drawable.text_error);
-                    message.setText("Не корректный ввод значений");
-                } else {
-                    Text.setBackgroundResource(R.drawable.text_default);
-                    message.setText("");
-                }
-            }
-        });
-    }
-
-    private void DateListener() {
-        Text.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                Text.setBackgroundResource(R.drawable.text_hover);
-                message.setText("");
-            } else {
-                if (Text.getText().toString().trim().isEmpty()) {
-                    Text.setBackgroundResource(R.drawable.text_error);
-                    message.setText("Поле не может быть пустым");
-                } else if (!Text.getText().toString().trim().matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
-                    Text.setBackgroundResource(R.drawable.text_error);
-                    message.setText("Введите дату в формате ДД.ММ.ГГГГ");
-                } else {
-                    Text.setBackgroundResource(R.drawable.text_default);
-                    message.setText("");
-                }
-            }
-        });
-    }
+//    private void NameListener() {
+//        Text.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                Text.setBackgroundResource(R.drawable.text_hover);
+//                message.setText("");
+//            } else {
+//                if (Text.getText().toString().trim().isEmpty()) {
+//                    Text.setBackgroundResource(R.drawable.text_error);
+//                    message.setText("Поле не может быть пустым");
+//                } else if (Text.getText().toString().trim().matches("\\d+")) {
+//                    Text.setBackgroundResource(R.drawable.text_error);
+//                    message.setText("Не корректный ввод значений");
+//                } else {
+//                    Text.setBackgroundResource(R.drawable.text_default);
+//                    message.setText("");
+//                }
+//            }
+//        });
+//    }
+//
+//    private void DateListener() {
+//        Text.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                Text.setBackgroundResource(R.drawable.text_hover);
+//                message.setText("");
+//            } else {
+//                if (Text.getText().toString().trim().isEmpty()) {
+//                    Text.setBackgroundResource(R.drawable.text_error);
+//                    message.setText("Поле не может быть пустым");
+//                } else if (!Text.getText().toString().trim().matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
+//                    Text.setBackgroundResource(R.drawable.text_error);
+//                    message.setText("Введите дату в формате ДД.ММ.ГГГГ");
+//                } else {
+//                    Text.setBackgroundResource(R.drawable.text_default);
+//                    message.setText("");
+//                }
+//            }
+//        });
+//    }
 
     @Override
     public void setEnabled(boolean enabled) {

@@ -37,29 +37,26 @@ public class ProductCreate extends MyAsyncTask {
     @Override
     protected String doInBackground(Void... voids) {
         try {
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-
+            InputStream inputStream = context.getContentResolver().openInputStream(this.uri);
             File tempFile = createTempFileFromServer(inputStream);
 
             Map<String, String> params = new HashMap<>();
-            params.put("Name", product.name);
-            params.put("Description", product.description);
-            params.put("Gender", String.valueOf(product.gender));
-            params.put("Expenditure", product.expenditure);
-            params.put("Price", String.valueOf(product.price));
+            params.put("Name", this.product.name);
+            params.put("Description", this.product.description);
+            params.put("Gender", this.product.gender.toString());
+            params.put("Expenditure", this.product.expenditure);
+            params.put("Price", this.product.price.toString());
 
             Connection.Response response = Jsoup.connect(Settings.URL + "/api/product/create")
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .method(Connection.Method.POST)
-                    .header("Content-type", "application/json")
                     .header("token", token)
                     .data(params)
-                    .data("ImageFile", tempFile.getName(), new FileInputStream(tempFile))
+                    .data("InputFile", tempFile.getName(), new FileInputStream(tempFile))
                     .execute();
-            return response.statusCode() == 200 ?
-                    response.body() :
-                    "Error: " + response.body();
+
+            return response.statusCode() == 200 ? response.body() : "Error: " + response.body();
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
