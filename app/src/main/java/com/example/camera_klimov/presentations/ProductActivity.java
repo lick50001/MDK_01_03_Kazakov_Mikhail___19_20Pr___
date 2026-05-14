@@ -12,6 +12,8 @@ import com.example.camera_klimov.R;
 
 public class ProductActivity extends AppCompatActivity {
 
+    public static ProductActivity init;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +24,13 @@ public class ProductActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void OpenGallery() {
+
+    }
+
+    public void OpenCamera() {
+
     }
 }
