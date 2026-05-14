@@ -41,6 +41,10 @@ public class TextCustom extends ConstraintLayout {
         init(null);
     }
 
+    public void init(String title, String hint, String text) {
+        Text.setHint(hint);
+    }
+
     public void init(Integer idLayout) {
         if (idLayout == null) return;
 
@@ -48,6 +52,16 @@ public class TextCustom extends ConstraintLayout {
 
         Text = findViewById(R.id.text);
         message = findViewById(R.id.textViewMessage);
+    }
+
+    public void OnError(boolean isError, String textError) {
+        if (isError) {
+            Text.setBackgroundResource(R.drawable.text_error);
+            message.setText(textError);
+        } else {
+            Text.setBackgroundResource(R.drawable.text_default);
+            message.setText("");
+        }
     }
 
     public void init(String value, TypeText type) {
