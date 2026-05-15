@@ -51,6 +51,7 @@ public class ProductCreate extends MyAsyncTask {
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .method(Connection.Method.POST)
+                    .header("Content-type", "multipart/form-data")
                     .header("token", token)
                     .data(params)
                     .data("InputFile", tempFile.getName(), new FileInputStream(tempFile))

@@ -4,6 +4,7 @@ import com.example.network.domains.apis.MyAsyncTask;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.common.Settings;
 import com.example.network.domains.models.Product;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.jsoup.Connection;
@@ -24,9 +25,6 @@ public class ProductDelete extends MyAsyncTask {
 
     @Override
     protected String doInBackground(Void... voids) {
-        Map<String, String> rawData = new HashMap<>();
-        rawData.put("Id", String.valueOf(id));
-
         try {
             Connection.Response response = Jsoup.connect(Settings.URL + "/api/product/delete")
                     .ignoreContentType(true)
@@ -34,7 +32,7 @@ public class ProductDelete extends MyAsyncTask {
                     .method(Connection.Method.DELETE)
                     .header("Content-type", "multipart/form-data")
                     .header("token", token)
-                    .data(rawData)
+                    .data("id", String.valueOf(id))
                     .execute();
             return response.statusCode() == 200 ?
                     response.body() :
