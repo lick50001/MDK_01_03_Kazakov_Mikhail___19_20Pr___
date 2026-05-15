@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ProductDelete extends MyAsyncTask {
     String token;
     Integer id;
@@ -21,16 +24,17 @@ public class ProductDelete extends MyAsyncTask {
 
     @Override
     protected String doInBackground(Void... voids) {
-        String rawData = new GsonBuilder().create().toJson(id);
+        Map<String, String> rawData = new HashMap<>();
+        rawData.put("Id", String.valueOf(id));
 
         try {
-            Connection.Response response = Jsoup.connect(Settings.URL + "/api/product/delete/")
+            Connection.Response response = Jsoup.connect(Settings.URL + "/api/product/delete")
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .method(Connection.Method.DELETE)
-                    .header("Content-type", "application/json")
+                    .header("Content-type", "multipart/form-data")
                     .header("token", token)
-                    .requestBody(rawData)
+                    .data(rawData)
                     .execute();
             return response.statusCode() == 200 ?
                     response.body() :

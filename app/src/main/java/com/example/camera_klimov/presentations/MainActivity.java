@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.camera_klimov.R;
 import com.example.camera_klimov.domains.PermissionManager;
 import com.example.network.datas.product.ProductByUser;
+import com.example.network.datas.product.ProductCreate;
+import com.example.network.datas.product.ProductDelete;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.models.Product;
 import com.example.uicomponents.button.BthBig;
@@ -30,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static MainActivity main;
-    public static String TOKEN = "830003a4-ae0d-4ede-9ceb-5f43bdebfaa8";
+    public static String TOKEN = "f2022d83-d185-4c5a-a89e-5d433a56b3e3";
     View btnOpenAddProduct;
     LinearLayout llContent;
     List<Product> Products;
@@ -81,10 +85,35 @@ public class MainActivity extends AppCompatActivity {
             View itemProduct = LayoutInflater.from(this).inflate(R.layout.product, llContent, false);
 
             BthBig btnBig = itemProduct.findViewById(R.id.btnOpenProduct);
+            ImageView btnDelete = itemProduct.findViewById(R.id.btnDeleteProduct);
             TextView tvName = itemProduct.findViewById(R.id.tvName);
             TextView tvPrice = itemProduct.findViewById(R.id.tvPrice);
 
             btnBig.init("Открыть", BthCustom.TypeButton.PRIMARY);
+
+            if (btnDelete != null) {
+                btnDelete.setOnClickListener(v -> {
+                    ProductDelete RequestProductDelete = new ProductDelete(
+                            MainActivity.TOKEN,
+                            product.id,
+                            new MyResponseCallback() {
+                                @Override
+                                public void onCompile(String result) {
+                                    Log.e("PRODUCT DELETE", result);
+                                    Toast.makeText(MainActivity.this, "Продукт удалён!", Toast.LENGTH_SHORT).show();
+                                    llContent.removeAllViews();
+                                    ProductGetUser();
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Log.e("PRODUCT DELETE", error);
+                                }
+                            }
+                    );
+                    RequestProductDelete.execute();
+                });
+            }
 
             tvName.setText(product.name);
 
