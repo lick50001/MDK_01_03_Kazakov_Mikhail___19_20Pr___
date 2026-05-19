@@ -1,4 +1,4 @@
-package com.example.camera_klimov.domains;
+package com.example.camera_klimov.domains.managers;
 
 import android.Manifest;
 import android.app.Activity;

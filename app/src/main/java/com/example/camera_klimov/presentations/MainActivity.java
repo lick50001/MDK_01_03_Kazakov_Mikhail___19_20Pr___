@@ -12,14 +12,10 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.camera_klimov.R;
-import com.example.camera_klimov.domains.PermissionManager;
+import com.example.camera_klimov.domains.managers.PermissionManager;
 import com.example.network.datas.product.ProductByUser;
-import com.example.network.datas.product.ProductCreate;
 import com.example.network.datas.product.ProductDelete;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.models.Product;
