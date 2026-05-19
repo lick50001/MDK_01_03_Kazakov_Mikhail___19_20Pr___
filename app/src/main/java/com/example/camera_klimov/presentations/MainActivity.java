@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.camera_klimov.NavigationMenu;
+import com.example.camera_klimov.ProductFragment;
 import com.example.camera_klimov.ProductsFragment;
 import com.example.camera_klimov.R;
 import com.example.camera_klimov.domains.callbacks.OnTabClickListner;
@@ -36,7 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static MainActivity main;
-    public static String TOKEN = "90ea2be3-da90-4542-86e3-c870fbe3750f";
+    public static String TOKEN = "a69506ed-e862-4659-bff9-99eb136e578d";
     View btnOpenAddProduct;
     public Fragment openFragment;
     Context context;
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (position == -1) {
-                openFragment = new ProductsFragment(context);
+                openFragment = new ProductFragment(context);
                 ft.add(R.id.contentFrame, openFragment);
             } else if (position == 2) {
                 openFragment = new ProductsFragment(context, MenuItemSelect);
@@ -80,9 +84,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (openFragment != null) {
+            openFragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
-        ProductsFragment productsFragment = (ProductsFragment) openFragment;
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
 
-        productsFragment.onActivityResult(requestCode, resultCode, data);
+        menu.add(1, 101, Menu.NONE, "Изменить");
+        menu.add(2, 102, Menu.NONE, "Удалить");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getGroupId() == 1)
+            Toast.makeText(context, "Изменение элемента", Toast.LENGTH_SHORT).show();
+        else if (item.getGroupId() == 2)
+            Toast.makeText(context, "Удаление элемента", Toast.LENGTH_SHORT).show();
+
+        return true;
     }
 }

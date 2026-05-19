@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.example.camera_klimov.ProductFragment;
 import com.example.camera_klimov.R;
 import com.example.uicomponents.button.BthBig;
 import com.example.uicomponents.button.BthCustom;
@@ -31,11 +32,11 @@ public class BottomSheetHepler {
         );
 
         btnGallery.Btn.setOnClickListener(v ->{
-            ProductActivity.init.OpenGallery();
+            ((ProductFragment) MainActivity.main.openFragment).OpenGallery();
         });
 
         btnCamera.Btn.setOnClickListener(v -> {
-            ProductActivity.init.OpenCamera();
+            ((ProductFragment) MainActivity.main.openFragment).OpenCamera();
         });
 
         dialog.setContentView(view);

@@ -1,5 +1,6 @@
 package com.example.camera_klimov;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.camera_klimov.presentations.ProductActivity.init;
 
 import android.content.Context;
@@ -73,6 +74,11 @@ public class ProductFragment extends Fragment {
         btnCreate.init("Подтвердить", BthCustom.TypeButton.PRIMARY);
         btnCreate.setEnabled(false);
 
+        etName.Text.setOnFocusChangeListener(LastFocus);
+        etPrice.Text.setOnFocusChangeListener(LastFocus);
+        etDescription.Text.setOnFocusChangeListener(LastFocus);
+        etExpedinture.Text.setOnFocusChangeListener(LastFocus);
+
         btnImageSelect.setOnClickListener(v -> {
             bottomSheetHepler.dialog.show();
         });
@@ -95,7 +101,7 @@ public class ProductFragment extends Fragment {
                         @Override
                         public void onCompile(String result) {
                             Log.e("PRODUCT CREATE", result);
-                            Toast.makeText(init, "Новый продукт создан!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Новый продукт создан!", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -149,10 +155,50 @@ public class ProductFragment extends Fragment {
 
         bottomSheetHepler.dialog.cancel();
 
-        if (resultCode == MainActivity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (requestCode == 1)
                 imageURI = data.getData();
             ((ImageView) btnImageSelect).setImageURI(imageURI);
         }
     }
+
+    View.OnFocusChangeListener LastFocus = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            EditText editText = (EditText) view;
+
+            if (hasFocus) {
+                editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_hover);
+                View parent = (View) editText.getParent();
+                TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                if (message != null) message.setText(" ");
+            } else {
+                String value = editText.getText().toString().trim();
+                if (value.isEmpty()) {
+                    editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_error);
+                    View parent = (View) editText.getParent();
+                    TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                    if (message != null) message.setText("Поле не может быть пустым");
+                } else {
+                    editText.setBackgroundResource(com.example.uicomponents.R.drawable.text_default);
+                    View parent = (View) editText.getParent();
+                    TextView message = parent.findViewById(com.example.uicomponents.R.id.textViewMessage);
+                    if (message != null) message.setText(" ");
+                }
+            }
+
+            if (hasFocus) return;
+
+            boolean state = true;
+            if (etName.Text.getText().toString().isEmpty()) state = false;
+            if (etDescription.Text.getText().toString().isEmpty()) state = false;
+            if (etExpedinture.Text.getText().toString().isEmpty()) state = false;
+            if (etPrice.Text.getText().toString().isEmpty()) state = false;
+
+            boolean isCorrectPrice = Pattern.matches("\\d*", etPrice.Text.getText().toString());
+            if (!isCorrectPrice) state = false;
+
+            btnCreate.setEnabled(state);
+        }
+    };
 }

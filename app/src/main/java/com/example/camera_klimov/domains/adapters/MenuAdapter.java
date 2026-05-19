@@ -66,8 +66,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            Image = itemView.findViewById();
-            Title = itemView.findViewById();
+            Image = itemView.findViewById(R.id.imageView);
+            Title = itemView.findViewById(R.id.textView);
 
             Parent = (LinearLayout) Image.getParent();
         }

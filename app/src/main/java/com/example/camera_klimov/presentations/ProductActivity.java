@@ -20,6 +20,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.camera_klimov.ProductFragment;
+import com.example.camera_klimov.ProductsFragment;
 import com.example.camera_klimov.R;
 import com.example.network.datas.product.ProductCreate;
 import com.example.network.domains.callbacks.MyResponseCallback;
@@ -96,7 +98,7 @@ public class ProductActivity extends AppCompatActivity {
                         public void onCompile(String result) {
                             Log.e("PRODUCT CREATE", result);
                             Toast.makeText(init, "Новый продукт создан!", Toast.LENGTH_SHORT).show();
-                            MainActivity.main.ProductGetUser();
+                            ProductsFragment.init.ProductGetUser();
                             finish();
                         }
 

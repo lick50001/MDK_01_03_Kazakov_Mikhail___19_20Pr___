@@ -10,7 +10,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsFragment extends Fragment {
-
+    public static ProductsFragment init;
     View btnOpenAddProduct;
     LinearLayout llContent;
     List<Product> Products;
@@ -109,6 +112,11 @@ public class ProductsFragment extends Fragment {
             btnBig.init("Открыть", BthCustom.TypeButton.PRIMARY);
 
             btnBig.Btn.setTextSize(16);
+
+            btnBig.Btn.setOnLongClickListener(v -> {
+                itemProduct.showContextMenu();
+                return true;
+            });
 
             tvName.setText(product.name);
             tvPrice.setText(product.price + " Р");
