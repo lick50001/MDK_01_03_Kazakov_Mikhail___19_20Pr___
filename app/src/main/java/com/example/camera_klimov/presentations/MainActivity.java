@@ -1,5 +1,6 @@
 package com.example.camera_klimov.presentations;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +13,13 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.camera_klimov.NavigationMenu;
+import com.example.camera_klimov.ProductsFragment;
 import com.example.camera_klimov.R;
+import com.example.camera_klimov.domains.callbacks.OnTabClickListner;
 import com.example.camera_klimov.domains.managers.PermissionManager;
 import com.example.network.datas.product.ProductByUser;
 import com.example.network.datas.product.ProductDelete;
@@ -32,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity main;
     public static String TOKEN = "90ea2be3-da90-4542-86e3-c870fbe3750f";
     View btnOpenAddProduct;
-    LinearLayout llContent;
-    List<Product> Products;
+    public Fragment openFragment;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,81 +47,42 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        PermissionManager.GetPermission(this, this);
+        main = this;
+        context = this;
 
-        btnOpenAddProduct = findViewById(R.id.btnOpenAddProduct);
-        llContent = findViewById(R.id.llContent);
-
-        btnOpenAddProduct.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ProductActivity.class);
-            startActivity(intent);
-        });
-
-        ProductGetUser();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        NavigationMenu menu = new NavigationMenu(this, MenuItemSelect);
+        ft.add(R.id.menu_navigation, menu);
+        ft.commit();
     }
 
-    public void ProductGetUser() {
-        ProductByUser RequestProductGetUser = new ProductByUser(TOKEN, new MyResponseCallback() {
-            @Override
-            public void onCompile(String result) {
-                Log.d("PRODUCT GET USER", result);
+    OnTabClickListner MenuItemSelect = new OnTabClickListner() {
+        @Override
+        public void onTabClick(Integer position) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-                Products = new GsonBuilder().create().fromJson(
-                        result,
-                        new TypeToken<ArrayList<Product>>(){}.getType()
-                );
-
-                CreateElement();
+            if (openFragment != null) {
+                ft.remove(openFragment);
             }
 
-            @Override
-            public void onError(String error) {
-                Log.e("PRODUCT GET USER", error);
-            }
-        });
-        RequestProductGetUser.execute();
-    }
-
-    public void CreateElement() {
-        for (Product product : Products) {
-            View itemProduct = LayoutInflater.from(this).inflate(R.layout.product, llContent, false);
-
-            BthBig btnBig = itemProduct.findViewById(R.id.btnOpenProduct);
-            ImageView btnDelete = itemProduct.findViewById(R.id.btnDeleteProduct);
-            TextView tvName = itemProduct.findViewById(R.id.tvName);
-            TextView tvPrice = itemProduct.findViewById(R.id.tvPrice);
-
-            btnBig.init("Открыть", BthCustom.TypeButton.PRIMARY);
-
-            if (btnDelete != null) {
-                btnDelete.setOnClickListener(v -> {
-                    ProductDelete RequestProductDelete = new ProductDelete(
-                            MainActivity.TOKEN,
-                            product.id,
-                            new MyResponseCallback() {
-                                @Override
-                                public void onCompile(String result) {
-                                    Log.e("PRODUCT DELETE", result);
-                                    Toast.makeText(MainActivity.this, "Продукт удалён!", Toast.LENGTH_SHORT).show();
-                                    llContent.removeAllViews();
-                                    ProductGetUser();
-                                }
-
-                                @Override
-                                public void onError(String error) {
-                                    Log.e("PRODUCT DELETE", error);
-                                }
-                            }
-                    );
-                    RequestProductDelete.execute();
-                });
+            if (position == -1) {
+                openFragment = new ProductsFragment(context);
+                ft.add(R.id.contentFrame, openFragment);
+            } else if (position == 2) {
+                openFragment = new ProductsFragment(context, MenuItemSelect);
+                ft.add(R.id.contentFrame, openFragment);
             }
 
-            tvName.setText(product.name);
-
-            tvPrice.setText(product.price + " Р");
-
-            llContent.addView(itemProduct);
+            ft.commit();
         }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ProductsFragment productsFragment = (ProductsFragment) openFragment;
+
+        productsFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
