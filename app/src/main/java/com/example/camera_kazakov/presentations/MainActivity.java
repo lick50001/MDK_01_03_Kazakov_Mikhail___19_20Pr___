@@ -1,17 +1,12 @@
-package com.example.camera_klimov.presentations;
+package com.example.camera_kazakov.presentations;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,23 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.camera_klimov.NavigationMenu;
-import com.example.camera_klimov.ProductFragment;
-import com.example.camera_klimov.ProductsFragment;
-import com.example.camera_klimov.R;
-import com.example.camera_klimov.domains.callbacks.OnTabClickListner;
-import com.example.camera_klimov.domains.managers.PermissionManager;
-import com.example.network.datas.product.ProductByUser;
-import com.example.network.datas.product.ProductDelete;
-import com.example.network.domains.callbacks.MyResponseCallback;
-import com.example.network.domains.models.Product;
-import com.example.uicomponents.button.BthBig;
-import com.example.uicomponents.button.BthCustom;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.camera_kazakov.NavigationMenu;
+import com.example.camera_kazakov.ProductFragment;
+import com.example.camera_kazakov.ProductsFragment;
+import com.example.camera_kazakov.R;
+import com.example.camera_kazakov.domains.callbacks.OnTabClickListner;
 
 public class MainActivity extends AppCompatActivity {
 

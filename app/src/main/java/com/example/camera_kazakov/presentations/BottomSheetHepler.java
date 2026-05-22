@@ -1,11 +1,11 @@
-package com.example.camera_klimov.presentations;
+package com.example.camera_kazakov.presentations;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.example.camera_klimov.ProductFragment;
-import com.example.camera_klimov.R;
+import com.example.camera_kazakov.ProductFragment;
+import com.example.camera_kazakov.R;
 import com.example.uicomponents.button.BthBig;
 import com.example.uicomponents.button.BthCustom;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

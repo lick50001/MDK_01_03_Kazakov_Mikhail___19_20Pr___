@@ -1,14 +1,12 @@
-package com.example.camera_klimov;
+package com.example.camera_kazakov;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.camera_klimov.presentations.ProductActivity.init;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -24,9 +22,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.camera_klimov.presentations.BottomSheetHepler;
-import com.example.camera_klimov.presentations.MainActivity;
-import com.example.camera_klimov.presentations.ProductActivity;
+import com.example.camera_kazakov.presentations.BottomSheetHepler;
+import com.example.camera_kazakov.presentations.MainActivity;
 import com.example.network.datas.product.ProductCreate;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.models.Product;

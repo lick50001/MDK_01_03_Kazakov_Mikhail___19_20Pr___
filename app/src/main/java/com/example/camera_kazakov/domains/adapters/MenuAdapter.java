@@ -1,4 +1,4 @@
-package com.example.camera_klimov.domains.adapters;
+package com.example.camera_kazakov.domains.adapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.camera_klimov.R;
-import com.example.camera_klimov.domains.callbacks.OnTabClickListner;
-import com.example.camera_klimov.domains.models.MenuItem;
+import com.example.camera_kazakov.R;
+import com.example.camera_kazakov.domains.callbacks.OnTabClickListner;
+import com.example.camera_kazakov.domains.models.MenuItem;
 
 import java.util.List;
 

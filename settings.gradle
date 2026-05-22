@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Camera_Klimov"
+rootProject.name = "Camera_Kazakov"
 include ':app', ':network', ':UIComponents'

@@ -1,4 +1,4 @@
-package com.example.camera_klimov.presentations;
+package com.example.camera_kazakov.presentations;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,13 +16,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.camera_klimov.ProductFragment;
-import com.example.camera_klimov.ProductsFragment;
-import com.example.camera_klimov.R;
+import com.example.camera_kazakov.ProductsFragment;
+import com.example.camera_kazakov.R;
 import com.example.network.datas.product.ProductCreate;
 import com.example.network.domains.callbacks.MyResponseCallback;
 import com.example.network.domains.models.Product;
